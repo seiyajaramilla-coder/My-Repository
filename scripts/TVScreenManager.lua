@@ -1,6 +1,6 @@
 -- Shaders TV Screen Manager
 -- P-slice engine v1.0.4
--- Manages TV screen shader effects and rendering
+-- Manages TV screen shader effects and rendering with curved scanlines
 
 local TVScreenManager = {}
 TVScreenManager.version = "1.0.4"
@@ -10,6 +10,10 @@ TVScreenManager.config = {
     -- CRT Effect
     enableCRT = true,
     distortion = 0.02,
+    
+    -- Screen Curvature
+    enableCurvature = true,
+    curvature = 0.15,
     
     -- Scanlines
     enableScanlines = true,
@@ -63,6 +67,12 @@ function TVScreenManager:setCRTDistortion(value)
     print("CRT Distortion set to: " .. self.config.distortion)
 end
 
+-- Set screen curvature amount
+function TVScreenManager:setScreenCurvature(value)
+    self.config.curvature = math.max(0.0, math.min(1.0, value))
+    print("Screen Curvature set to: " .. self.config.curvature)
+end
+
 -- Set scanline intensity
 function TVScreenManager:setScanlineIntensity(value)
     self.config.scanlineIntensity = math.max(0.0, math.min(1.0, value))
@@ -99,6 +109,12 @@ function TVScreenManager:toggleCRT(enabled)
     print("CRT Effect " .. (enabled and "ENABLED" or "DISABLED"))
 end
 
+-- Toggle screen curvature
+function TVScreenManager:toggleCurvature(enabled)
+    self.config.enableCurvature = enabled
+    print("Screen Curvature " .. (enabled and "ENABLED" or "DISABLED"))
+end
+
 -- Toggle scanlines
 function TVScreenManager:toggleScanlines(enabled)
     self.config.enableScanlines = enabled
@@ -111,10 +127,12 @@ function TVScreenManager:toggleVignette(enabled)
     print("Vignette " .. (enabled and "ENABLED" or "DISABLED"))
 end
 
--- Apply retro TV preset
+-- Apply retro TV preset (heavy curve)
 function TVScreenManager:applyRetroPreset()
     self.config.enableCRT = true
     self.config.distortion = 0.08
+    self.config.enableCurvature = true
+    self.config.curvature = 0.25
     self.config.enableScanlines = true
     self.config.scanlineIntensity = 0.25
     self.config.enableVignette = true
@@ -122,13 +140,15 @@ function TVScreenManager:applyRetroPreset()
     self.config.brightness = 0.95
     self.config.contrast = 1.15
     self.config.saturation = 1.3
-    print("Retro TV preset applied")
+    print("Retro TV preset applied (curved)")
 end
 
--- Apply modern monitor preset
+-- Apply modern monitor preset (flat)
 function TVScreenManager:applyModernPreset()
     self.config.enableCRT = false
     self.config.distortion = 0.0
+    self.config.enableCurvature = false
+    self.config.curvature = 0.0
     self.config.enableScanlines = false
     self.config.scanlineIntensity = 0.0
     self.config.enableVignette = false
@@ -136,13 +156,15 @@ function TVScreenManager:applyModernPreset()
     self.config.brightness = 1.0
     self.config.contrast = 1.0
     self.config.saturation = 1.0
-    print("Modern monitor preset applied")
+    print("Modern monitor preset applied (flat)")
 end
 
--- Apply arcade cabinet preset
+-- Apply arcade cabinet preset (curved)
 function TVScreenManager:applyArcadePreset()
     self.config.enableCRT = true
     self.config.distortion = 0.04
+    self.config.enableCurvature = true
+    self.config.curvature = 0.12
     self.config.enableScanlines = true
     self.config.scanlineIntensity = 0.2
     self.config.enableVignette = true
@@ -150,7 +172,23 @@ function TVScreenManager:applyArcadePreset()
     self.config.brightness = 1.05
     self.config.contrast = 1.2
     self.config.saturation = 1.4
-    print("Arcade cabinet preset applied")
+    print("Arcade cabinet preset applied (curved)")
+end
+
+-- Apply cinema curved screen preset
+function TVScreenManager:applyCinemaPreset()
+    self.config.enableCRT = true
+    self.config.distortion = 0.06
+    self.config.enableCurvature = true
+    self.config.curvature = 0.18
+    self.config.enableScanlines = true
+    self.config.scanlineIntensity = 0.1
+    self.config.enableVignette = true
+    self.config.vignette = 0.35
+    self.config.brightness = 1.0
+    self.config.contrast = 1.1
+    self.config.saturation = 1.25
+    print("Cinema curved screen preset applied")
 end
 
 -- Get current configuration
@@ -161,7 +199,7 @@ end
 -- Render frame with TV screen effects
 function TVScreenManager:renderFrame(sourceTexture)
     -- Render implementation would go here
-    print("Rendering TV screen frame")
+    print("Rendering TV screen frame with curvature")
     return true
 end
 
@@ -169,6 +207,8 @@ end
 function TVScreenManager:reset()
     self.config.enableCRT = true
     self.config.distortion = 0.02
+    self.config.enableCurvature = true
+    self.config.curvature = 0.15
     self.config.enableScanlines = true
     self.config.scanlineIntensity = 0.15
     self.config.enableVignette = true
