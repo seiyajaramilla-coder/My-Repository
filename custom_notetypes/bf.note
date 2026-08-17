@@ -1,0 +1,21 @@
+Name: bf
+noteType: bf
+texture: pNotes2i
+noAnimation: true
+alpha: 0
+mustPressIgnored: true
+editorName: "Boyfriend (bf) - Custom"
+engineCompatibility:
+  - p-slice: "1.0.4"
+description: |
+  Invisible custom note that triggers Boyfriend's animation when its strumTime passes.
+  Use this in charts where you want BF to auto-animate without rendering a visible note in-game.
+
+# Usage
+# 1. Place this file in `custom_notetypes/` inside your mod directory (already here).
+# 2. In the Chart Editor, select a note and set its noteType to `bf` (some editors show a dropdown or require editing the note's properties).
+# 3. The supplied `bf.lua` in this folder handles the runtime behavior (already present in the repo).
+
+# Notes
+# - P-slice 1.0.4 may require a manual registration step in the engine to expose custom note types to the Chart Editor (see bf_editor_instructions.md).
+# - If the editor does not list the new note type, you can open the chart file in a text editor and change the note's `noteType` property to `bf` manually.
